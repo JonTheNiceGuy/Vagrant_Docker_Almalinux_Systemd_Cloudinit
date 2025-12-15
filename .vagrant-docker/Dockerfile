@@ -28,6 +28,13 @@ RUN dnf install -y \
     mkdir /var/run/sshd && \
     systemctl enable sshd
 
+RUN dnf install -y cloud-init && \
+    systemctl enable cloud-config \
+                     cloud-init  \
+                     cloud-init-local  \
+                     cloud-final && \
+    sed -i -E -e 's/^(\s+name:).*$/\1 vagrant/' /etc/cloud/cloud.cfg
+
 # Setup the Vagrant user and "insecure" (common) keys
 RUN useradd --create-home -s /bin/bash vagrant && \
     echo -n 'vagrant:vagrant' | chpasswd && \
