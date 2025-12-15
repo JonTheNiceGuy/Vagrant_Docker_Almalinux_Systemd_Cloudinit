@@ -1,0 +1,7 @@
+#cloud-config
+write_files:
+  - path: /opt/proof.txt
+    owner: root:root
+    permissions: "0644"
+    content: |
+      This system works

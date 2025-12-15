@@ -33,5 +33,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "worker" do |config|
     config.vm.hostname = "worker"
+
+    # Virtualbox can use config.vm.cloud_init but docker can't
+    config.vm.cloud_init :user_data do |cloud_init|
+      cloud_init.content_type = "text/cloud-config"
+      cloud_init.path = "worker/cloud-init.yaml"
+    end
+
+    config.vm.provision "shell", inline: "bash -x -c 'cat /opt/proof.txt'"
   end
 end
